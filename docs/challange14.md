@@ -7,7 +7,7 @@ struggling to cope with increasing user demand, resulting in frequent downtime, 
 response times, and degraded user experience.
 The key challenges they face include:
 
-- 1.Scalability: The current infrastructure lacks the scalability needed to handle sudden surges in traffic, especially during peak periods or when new clients are onboard.
+- 1. Scalability: The current infrastructure lacks the scalability needed to handle sudden surges in traffic, especially during peak periods or when new clients are onboard.
 
 - 2. Performance Optimization: Applications are not optimised for efficiency, leading to high resource consumption, inefficient code execution, and sluggish
 response times.
