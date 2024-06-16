@@ -19,7 +19,7 @@ resource "aws_instance" "jump_host" {
 
 
 resource "aws_key_pair" "deployer" {
-  key_name = "deployer-key"
+  key_name = "alvo-ssh-keys"
   //storing ssh key on the server
   public_key = tls_private_key.RSA.public_key_openssh
 }

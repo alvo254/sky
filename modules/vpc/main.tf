@@ -75,12 +75,25 @@ resource "aws_route_table_association" "sky" {
 }
 
 
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public_subnet1.id
+
+  tags = {
+    Name = "main-nat-gateway"
+  }
+}
+
 resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.sky.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.main.id
+    gateway_id = aws_internet_gateway.sky.id
   }
 
   //For ipv6 you can point directly to the internet gateway or create an egress only gateway but this blocks inbound traffic by default
@@ -97,17 +110,4 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route_table_association" "private_subnet_association" {
   subnet_id      = aws_subnet.private_subnet1.id
   route_table_id = aws_route_table.private_route_table.id
-}
-
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_subnet1.id
-
-  tags = {
-    Name = "main-nat-gateway"
-  }
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
 }
