@@ -1,5 +1,5 @@
 variable "subnet_id1" {
-    type = string
+  type = string
 }
 
 variable "private_subent1" {

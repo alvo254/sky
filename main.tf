@@ -12,3 +12,9 @@ module "eks" {
   subnet_id1 = module.vpc.pub_sub1
   private_subent1 = module.vpc.private_subent1
 }
+
+module "ec2" {
+  source = "./modules/ec2"
+  pub_subnet = module.vpc.pub_sub1
+  security_group = module.sg.security_group
+}

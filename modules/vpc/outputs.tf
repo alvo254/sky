@@ -7,5 +7,5 @@ output "pub_sub1" {
 }
 
 output "private_subent1" {
-  value = aws_subnet.private_subent1.id
+  value = aws_subnet.private_subnet1.id
 }

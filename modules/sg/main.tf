@@ -29,11 +29,11 @@ resource "aws_security_group" "sky" {
 
     },
     {
-      description = "SSH"
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks      = ["102.216.154.26/32"] 
+      description      = "SSH"
+      from_port        = 22
+      to_port          = 22
+      protocol         = "tcp"
+      cidr_blocks      = ["102.216.154.26/32"]
       ipv6_cidr_blocks = []
       prefix_list_ids  = []
       security_groups  = []
