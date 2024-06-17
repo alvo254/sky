@@ -25,7 +25,20 @@ resource "aws_subnet" "public_subnet1" {
   }
 }
 
+resource "aws_subnet" "jump_host_sub" {
+  vpc_id                  = aws_vpc.sky.id
+  cidr_block              = var.public_subnet2
+  map_public_ip_on_launch = true
+  availability_zone       = data.aws_availability_zones.available_zones.names[1]
 
+
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.sky.ipv6_cidr_block, 8, 3)
+  assign_ipv6_address_on_creation = true
+
+  tags = {
+    Name = "${var.project}-${var.env}-jump_host_subnet"
+  }
+}
 
 
 resource "aws_subnet" "private_subnet1" {
@@ -93,13 +106,13 @@ resource "aws_route_table" "private_route_table" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.sky.id
+    gateway_id = aws_nat_gateway.main.id
   }
 
   //For ipv6 you can point directly to the internet gateway or create an egress only gateway but this blocks inbound traffic by default
   route {
     ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.sky.id
+    gateway_id      = aws_nat_gateway.main.id
   }
 
   tags = {

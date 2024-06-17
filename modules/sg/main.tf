@@ -17,7 +17,7 @@ resource "aws_security_group" "sky" {
 
     },
     {
-      description      = "HTTS"
+      description      = "HTTPS"
       from_port        = 443
       to_port          = 443
       protocol         = "tcp"

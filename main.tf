@@ -11,6 +11,7 @@ module "eks" {
   source = "./modules/eks"
   subnet_id1 = module.vpc.pub_sub1
   private_subent1 = module.vpc.private_subent1
+  ssh_key_name = module.ec2.ec2_ssh_key
 }
 
 module "ec2" {

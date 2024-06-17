@@ -5,3 +5,7 @@ variable "subnet_id1" {
 variable "private_subent1" {
   type = string
 }
+
+variable "ssh_key_name" {
+  type = string
+}

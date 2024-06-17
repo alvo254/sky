@@ -5,6 +5,10 @@ resource "aws_instance" "jump_host" {
   subnet_id = var.pub_subnet
   //This is interpolation or directive
   key_name = aws_key_pair.deployer.key_name
+  user_data = <<-EOF
+            #!/bin/bash
+            echo "${tls_private_key.RSA.public_key_openssh}" >> /home/ec2-user/.ssh/authorized_keys
+            EOF
 
   #   user_data = data.template_file.data_2.rendered
 
@@ -14,7 +18,6 @@ resource "aws_instance" "jump_host" {
     Name = "jump_host"
   }
 }
-
 
 
 

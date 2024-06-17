@@ -17,3 +17,7 @@ variable "public_subnet" {
 variable "private_subnet" {
   default = "172.16.8.0/21"
 }
+
+variable "public_subnet2" {
+  default = "172.16.8.10/21"
+}
