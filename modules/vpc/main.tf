@@ -25,36 +25,50 @@ resource "aws_subnet" "public_subnet1" {
   }
 }
 
-resource "aws_subnet" "jump_host_sub" {
-  vpc_id                  = aws_vpc.sky.id
-  cidr_block              = var.public_subnet2
-  map_public_ip_on_launch = true
-  availability_zone       = data.aws_availability_zones.available_zones.names[1]
-
-
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.sky.ipv6_cidr_block, 8, 3)
-  assign_ipv6_address_on_creation = true
-
-  tags = {
-    Name = "${var.project}-${var.env}-jump_host_subnet"
-  }
-}
-
-
-resource "aws_subnet" "private_subnet1" {
-  vpc_id                  = aws_vpc.sky.id
-  cidr_block              = var.private_subnet
-  map_public_ip_on_launch = false
-  availability_zone       = data.aws_availability_zones.available_zones.names[1]
-
-
+resource "aws_subnet" "public_subnet2" {
+  vpc_id                          = aws_vpc.sky.id
+  cidr_block                      = var.public_subnet2
+  map_public_ip_on_launch         = true
+  availability_zone               = data.aws_availability_zones.available_zones.names[1]
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.sky.ipv6_cidr_block, 8, 2)
   assign_ipv6_address_on_creation = true
 
   tags = {
-    Name = "${var.project}-${var.env}-prvt-sub-IPV6-expriment"
+    Name = "${var.project}-${var.env}-pub-sub-IPV6-expriment"
   }
 }
+
+
+# resource "aws_subnet" "jump_host_sub" {
+#   vpc_id                  = aws_vpc.sky.id
+#   cidr_block              = var.public_subnet2
+#   map_public_ip_on_launch = true
+#   availability_zone       = data.aws_availability_zones.available_zones.names[1]
+
+
+#   ipv6_cidr_block                 = cidrsubnet(aws_vpc.sky.ipv6_cidr_block, 8, 3)
+#   assign_ipv6_address_on_creation = true
+
+#   tags = {
+#     Name = "${var.project}-${var.env}-jump_host_subnet"
+#   }
+# }
+
+
+# resource "aws_subnet" "private_subnet1" {
+#   vpc_id                  = aws_vpc.sky.id
+#   cidr_block              = var.private_subnet
+#   map_public_ip_on_launch = false
+#   availability_zone       = data.aws_availability_zones.available_zones.names[1]
+
+
+#   ipv6_cidr_block                 = cidrsubnet(aws_vpc.sky.ipv6_cidr_block, 8, 2)
+#   assign_ipv6_address_on_creation = true
+
+#   tags = {
+#     Name = "${var.project}-${var.env}-prvt-sub-IPV6-expriment"
+#   }
+# }
 
 
 resource "aws_internet_gateway" "sky" {
@@ -82,45 +96,55 @@ resource "aws_route_table" "sky" {
   }
 }
 
+
+locals {
+  subnet_ids = {
+    subnet1 = aws_subnet.public_subnet1.id,
+    subnet2 = aws_subnet.public_subnet2.id,
+  }
+}
+
 resource "aws_route_table_association" "sky" {
+  for_each = local.subnet_ids
+  # for_each = toset(local.subnet_ids)
   route_table_id = aws_route_table.sky.id
-  subnet_id      = aws_subnet.public_subnet1.id
+  subnet_id      = each.value
 }
 
 
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
+# resource "aws_eip" "nat" {
+#   domain = "vpc"
+# }
 
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_subnet1.id
+# resource "aws_nat_gateway" "main" {
+#   allocation_id = aws_eip.nat.id
+#   subnet_id     = aws_subnet.public_subnet1.id
 
-  tags = {
-    Name = "main-nat-gateway"
-  }
-}
+#   tags = {
+#     Name = "main-nat-gateway"
+#   }
+# }
 
-resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.sky.id
+# resource "aws_route_table" "private_route_table" {
+#   vpc_id = aws_vpc.sky.id
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.main.id
-  }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_nat_gateway.main.id
+#   }
 
-  //For ipv6 you can point directly to the internet gateway or create an egress only gateway but this blocks inbound traffic by default
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_nat_gateway.main.id
-  }
+#   //For ipv6 you can point directly to the internet gateway or create an egress only gateway but this blocks inbound traffic by default
+#   route {
+#     ipv6_cidr_block = "::/0"
+#     gateway_id      = aws_nat_gateway.main.id
+#   }
 
-  tags = {
-    Name = "private-route-table"
-  }
-}
+#   tags = {
+#     Name = "private-route-table"
+#   }
+# }
 
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet1.id
-  route_table_id = aws_route_table.private_route_table.id
-}
+# resource "aws_route_table_association" "private_subnet_association" {
+#   subnet_id      = aws_subnet.private_subnet1.id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
