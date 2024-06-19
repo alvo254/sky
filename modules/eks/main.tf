@@ -124,3 +124,14 @@ resource "null_resource" "cilium_install" {
 
   depends_on = [aws_eks_cluster.sky, aws_eks_node_group.eks_nodes]
 }
+
+//Tekton install
+resource "null_resource" "tekton_install" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+    EOT
+  }
+
+  depends_on = [aws_eks_cluster.sky, aws_eks_node_group.eks_nodes]
+}
