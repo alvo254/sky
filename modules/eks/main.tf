@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "sky" {
   role_arn = aws_iam_role.eks-iam-role.arn
 
   vpc_config {
-    subnet_ids = [var.subnet_id1, var.private_subent1]
+    subnet_ids = [var.subnet_id1, var.public_subent2]
   }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
@@ -70,7 +70,7 @@ resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.sky.name
   node_group_name = "sky-nodes"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = [var.subnet_id1, var.private_subent1]
+  subnet_ids      = [var.subnet_id1, var.public_subent2]
 
   scaling_config {
     desired_size = 2
@@ -80,9 +80,9 @@ resource "aws_eks_node_group" "eks_nodes" {
 
   instance_types = ["t3.medium"]
 
-    remote_access {
-    ec2_ssh_key = var.ssh_key_name
-  }
+  #   remote_access {
+  #   ec2_ssh_key = var.ssh_key_name
+  # }
 
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_AmazonEKSWorkerNodePolicy,
