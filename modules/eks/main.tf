@@ -105,3 +105,22 @@ resource "aws_iam_role_policy_attachment" "eks_node_AmazonEC2ContainerRegistryRe
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_node_role.name
 }
+
+
+// Install cilum using null provisioners
+resource "null_resource" "cilium_install" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      aws eks update-kubeconfig --name ${aws_eks_cluster.sky.name} --region ${var.region}
+      helm repo add cilium https://helm.cilium.io/
+      helm repo update
+      helm install cilium cilium/cilium --version 1.14.2 \
+        --namespace kube-system \
+        --set eks.enabled=true \
+        --set nodeinit.enabled=true \
+        --set nodeinit.restartPods=true
+    EOT
+  }
+
+  depends_on = [aws_eks_cluster.sky, aws_eks_node_group.eks_nodes]
+}
