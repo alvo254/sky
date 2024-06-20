@@ -19,4 +19,5 @@ module "ec2" {
   source = "./modules/ec2"
   pub_subnet = module.vpc.pub_sub1
   security_group = module.sg.security_group
+  private_subnet = module.vpc.private_subent1
 }

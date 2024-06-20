@@ -5,3 +5,7 @@ variable "pub_subnet" {
 variable "security_group" {
   type = string
 }
+
+variable "private_subnet" {
+  type = string
+}
