@@ -34,7 +34,6 @@ resource "tls_private_key" "RSA" {
 }
 
 resource "local_file" "alvo-ssh-keys" {
-  # content = tls_private_key.RSA.private_key_pem
   content  = tls_private_key.RSA.private_key_pem
   filename = "alvo-ssh-keys.pem"
 }
