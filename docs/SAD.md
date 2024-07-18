@@ -51,9 +51,7 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
 - **Multi-AZ Deployment**
     
     - Deploy EKS nodes across multiple Availability Zones for high availability.
-- **Content Delivery Network (CDN)**
-    
-    - Utilize Amazon CloudFront to reduce latency and handle traffic surges.
+
 
 #### Performance Optimization
 
@@ -63,10 +61,8 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
     - Implement Horizontal Pod Autoscaler to scale the number of pods based on CPU utilization or other metrics.
 - **Database Optimization**
     
-    - Utilize Amazon RDS or Aurora with optimized configurations.
-- **Caching Strategies**
-    
-    - Use Amazon ElastiCache for Redis or Memcached to reduce database load and improve response times.
+    - Utilize Amazon RDS.
+
 - **Code Refactoring**
     
     - Identify and optimize inefficient code paths.
@@ -82,7 +78,7 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
     - Use Kubernetes Ingress controllers with AWS ALB (Application Load Balancer) to distribute traffic.
 - **Automated Recovery**
     
-    - Implement backup and restore strategies using Velero for Kubernetes.
+    - Implement backup and restore strategies using Velero for Kubernetes.  //Testing
     - Use AWS Backup and disaster recovery solutions such as AWS Disaster Recovery (DR) plans.
 
 #### Security Implementation
@@ -106,10 +102,8 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
 
 #### Cost Optimization
 
-- **Spot Instances**
-    
-    - Utilize Amazon EC2 Spot Instances for cost savings, with fallback to On-Demand Instances.
-- **Reserved Instances**
+
+- **Reserved Instances**  //As a consideration
     
     - Evaluate and purchase Reserved Instances or Savings Plans for predictable workloads.
 - **Resource Tagging**
@@ -133,18 +127,18 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
 - **Microservices Architecture**
     - Break down monolithic applications into microservices to be deployed in EKS.
 - **CI/CD Pipeline**
-    - Set up CI/CD pipelines using Tekton for automated deployments.
+    - Set up CI/CD pipelines using Tekton for automated deployments.  //Learning while testing
 
 #### Implementation Phase
 
 - **EKS Cluster Setup**
     - Provision the EKS cluster with appropriate node groups and autoscaling configurations.
-    - Configure VPC, subnets, and security groups. Implement Kubernetes network policies.
+    - Configure VPC, subnets, and security groups. Implement cilium networking policies.
 - **Service Deployment**
     - Deploy applications as Kubernetes deployments, statefulsets, and daemonsets.
-    - Use Helm charts for managing Kubernetes resources.
+    - Use Helm charts for managing Kubernetes resources.    //ishish about this
 - **Monitoring and Logging**
-    - Integrate with AWS CloudWatch, Prometheus, and Grafana for monitoring.
+    - Integrate with AWS CloudWatch.
     - Use Fluentd for log aggregation and forwarding to CloudWatch Logs.
 - **Security Implementation**
     - Set up IAM roles for service accounts, secrets management, and encryption.
@@ -153,16 +147,16 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
 #### Testing and Validation
 
 - **Load Testing**
-    - Perform load testing using tools like Apache JMeter or Locust to validate scalability and performance.
+    - Perform load testing using tools like Apache JMeter or Locust to validate scalability and performance.      //Not a priority just a suggestion
 - **Security Audits**
     - Conduct security audits and penetration testing to validate security measures.
 - **Disaster Recovery Drills**
-    - Perform disaster recovery drills to ensure data integrity and recovery processes.
+    - Perform disaster recovery drills to ensure data integrity and recovery processes.  //thinking of trying AWS FIS
 
 #### Monitoring and Maintenance
 
 - **Continuous Monitoring**
-    - Set up continuous monitoring with CloudWatch, Prometheus, and Grafana.
+    - Set up continuous monitoring with CloudWatch.   //promethus ...?
 - **Regular Reviews**
     - Conduct regular reviews and optimizations to ensure ongoing performance and cost efficiency.
 
@@ -173,13 +167,13 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
     - Control Plane, Node Groups, Networking (VPC, subnets, security groups), Cilium CNI
 2. **Application Deployment**
     
-    - Pods, Services, Ingress Controllers
+    - Pods, Services, Cilium policies
 3. **CI/CD Pipeline with Tekton**
     
     - Tekton Pipelines, Tasks, Triggers
 4. **Monitoring and Logging**
     
-    - Prometheus, Grafana, Fluentd, CloudWatch
+    - Prometheus, Grafana, Fluentd, CloudWatch      //....?
 5. **Security**
     
     - IAM Roles for Service Accounts, Network Policies with Cilium, AWS KMS
@@ -191,25 +185,5 @@ CloudForceSky, a leading provider of cloud-based services, is experiencing signi
 - **Visibility and Monitoring**: Provides deep visibility into network traffic, making it easier to monitor and troubleshoot.
 - **Flexibility**: Supports both traditional and modern workloads, including microservices and service mesh architectures.
 
-### Next Steps
-
-1. **Kick-off Meeting**
-    
-    - Schedule a kick-off meeting with CloudForceSky stakeholders.
-2. **Initial Assessment**
-    
-    - Conduct a thorough assessment of the current infrastructure.
-3. **Design Architecture**
-    
-    - Create detailed architecture diagrams and plans using Draw.io or Lucidchart.
-4. **Implementation**
-    
-    - Begin the implementation phase, focusing on high-priority areas.
-5. **Testing and Validation**
-    
-    - Perform extensive testing and validation of the new infrastructure.
-6. **Continuous Monitoring**
-    
-    - Set up continuous monitoring and maintenance processes.
 
 By leveraging Amazon EKS with Cilium as the CNI and Tekton for CI/CD, and following this comprehensive plan, CloudForceSky can achieve improved scalability, performance, reliability, security, and cost efficiency in their cloud infrastructure.
