@@ -18,7 +18,7 @@
     - [Monitoring and Maintenance](#monitoring-and-maintenance)
 5. [Detailed Architecture Diagram](#detailed-architecture-diagram)
 6. [Advantages of Using Cilium](#advantages-of-using-cilium)
-7. [Next Steps](#next-steps)
+
 
 ---
 
